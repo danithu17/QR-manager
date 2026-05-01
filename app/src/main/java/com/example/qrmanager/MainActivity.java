@@ -2,6 +2,10 @@ package com.example.qrmanager;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
