@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">QR Inventory</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="inventory">Inventory</string>
+    <string name="sales">Sales</string>
+    <string name="add_qr">Add QR Code</string>
+    <string name="status_available">Available</string>
+    <string name="status_pending">Pending</string>
+    <string name="status_sold">Sold</string>
+    <string name="status_preorder">Pre-ordered</string>
+    <string name="total_sold">Total Sold</string>
+    <string name="pending_items">Pending</string>
+    <string name="pre_orders">Pre-orders</string>
+</resources>
