@@ -11,10 +11,15 @@ public class FirebaseSyncHelper {
     private DatabaseReference mDatabase;
 
     public FirebaseSyncHelper() {
-        mDatabase = FirebaseDatabase.getInstance().getReference(DATABASE_PATH);
+        try {
+            mDatabase = FirebaseDatabase.getInstance().getReference(DATABASE_PATH);
+        } catch (Exception e) {
+            mDatabase = null;
+        }
     }
 
     public void syncToCloud(List<QRCode> qrCodes) {
+        if (mDatabase == null) return;
         // Simple sync: overwrite the cloud node with the latest local data
         mDatabase.setValue(qrCodes)
                 .addOnSuccessListener(aVoid -> {
@@ -26,6 +31,7 @@ public class FirebaseSyncHelper {
     }
 
     public void uploadBackup(List<QRCode> qrCodes) {
+        if (mDatabase == null) return;
         // Upload a dated backup
         String timestamp = String.valueOf(System.currentTimeMillis());
         FirebaseDatabase.getInstance().getReference("backups").child(timestamp).setValue(qrCodes);
