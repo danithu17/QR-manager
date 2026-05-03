@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private QRCodeAdapter adapter;
     private AppDatabase db;
+    private FirebaseSyncHelper firebaseSyncHelper;
     private FirebaseStorageHelper firebaseStorageHelper;
     private PrefsManager prefsManager;
     private Uri selectedImageUri;
