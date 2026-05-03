@@ -28,6 +28,7 @@ import com.example.qrmanager.adapter.QRCodeAdapter;
 import com.example.qrmanager.db.AppDatabase;
 import com.example.qrmanager.db.FirebaseSyncHelper;
 import com.example.qrmanager.db.FirebaseStorageHelper;
+import com.example.qrmanager.db.PrefsManager;
 import com.example.qrmanager.model.QRCode;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -45,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private QRCodeAdapter adapter;
     private AppDatabase db;
-    private FirebaseSyncHelper firebaseSyncHelper;
     private FirebaseStorageHelper firebaseStorageHelper;
+    private PrefsManager prefsManager;
     private Uri selectedImageUri;
 
     private TextView tvTotalSold, tvPending, tvPreorders;
@@ -59,8 +60,11 @@ public class MainActivity extends AppCompatActivity {
         db = AppDatabase.getInstance(this);
         firebaseSyncHelper = new FirebaseSyncHelper();
         firebaseStorageHelper = new FirebaseStorageHelper();
+        prefsManager = new PrefsManager(this);
 
-        checkBiometricAuth();
+        if (prefsManager.isBiometricEnabled()) {
+            checkBiometricAuth();
+        }
         signInAnonymously();
         
         initViews();
@@ -79,6 +83,25 @@ public class MainActivity extends AppCompatActivity {
         fabAdd.setOnClickListener(v -> showAddDialog());
         
         findViewById(R.id.tvTotalSoldValue).setOnClickListener(v -> generateSalesReport());
+        
+        findViewById(R.id.toolbar).setOnClickListener(v -> showSettingsDialog());
+    }
+
+    private void showSettingsDialog() {
+        String[] options = {"Biometric Lock: " + (prefsManager.isBiometricEnabled() ? "ON" : "OFF"), "Logout"};
+        new AlertDialog.Builder(this)
+                .setTitle("Settings")
+                .setItems(options, (dialog, which) -> {
+                    if (which == 0) {
+                        prefsManager.setBiometricEnabled(!prefsManager.isBiometricEnabled());
+                        Toast.makeText(this, "Settings Saved", Toast.LENGTH_SHORT).show();
+                    } else if (which == 1) {
+                        FirebaseAuth.getInstance().signOut();
+                        startActivity(new Intent(this, LoginActivity.class));
+                        finish();
+                    }
+                })
+                .show();
     }
 
     private void setupRecyclerView() {
