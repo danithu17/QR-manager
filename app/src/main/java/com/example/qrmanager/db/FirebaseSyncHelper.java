@@ -12,7 +12,8 @@ public class FirebaseSyncHelper {
 
     public FirebaseSyncHelper() {
         try {
-            mDatabase = FirebaseDatabase.getInstance().getReference(DATABASE_PATH);
+            mDatabase = FirebaseDatabase.getInstance("https://qr-manager-a3ae9-default-rtdb.firebaseio.com/")
+                    .getReference(DATABASE_PATH);
         } catch (Exception e) {
             mDatabase = null;
         }
