@@ -51,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private PrefsManager prefsManager;
     private Uri selectedImageUri;
 
-    private TextView tvTotalSold, tvPending, tvPreorders;
+    private TextView tvTotalSold, tvPending, tvPreorders, tvWelcomeUser;
+    private EditText etSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +80,26 @@ public class MainActivity extends AppCompatActivity {
         tvTotalSold = findViewById(R.id.tvTotalSoldValue);
         tvPending = findViewById(R.id.tvPendingValue);
         tvPreorders = findViewById(R.id.tvPreorderValue);
+        tvWelcomeUser = findViewById(R.id.tvWelcomeUser);
+        etSearch = findViewById(R.id.etSearch);
         FloatingActionButton fabAdd = findViewById(R.id.fabAdd);
 
+        String userName = FirebaseAuth.getInstance().getCurrentUser() != null ? 
+                FirebaseAuth.getInstance().getCurrentUser().getEmail() : "Entrepreneur";
+        tvWelcomeUser.setText("Hello, " + userName.split("@")[0]);
+
         fabAdd.setOnClickListener(v -> showAddDialog());
+        
+        etSearch.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterData(s.toString());
+            }
+            @Override
+            public void afterTextChanged(android.text.Editable s) {}
+        });
         
         findViewById(R.id.tvTotalSoldValue).setOnClickListener(v -> generateSalesReport());
         
@@ -154,6 +172,20 @@ public class MainActivity extends AppCompatActivity {
         db.qrCodeDao().getSoldCount().observe(this, count -> tvTotalSold.setText(String.valueOf(count)));
         db.qrCodeDao().getPendingCount().observe(this, count -> tvPending.setText(String.valueOf(count)));
         db.qrCodeDao().getPreorderCount().observe(this, count -> tvPreorders.setText(String.valueOf(count)));
+    }
+
+    private void filterData(String query) {
+        db.qrCodeDao().getAllQRCodes().observe(this, qrCodes -> {
+            if (qrCodes == null) return;
+            java.util.List<QRCode> filteredList = new java.util.ArrayList<>();
+            for (QRCode qr : qrCodes) {
+                if (qr.getName().toLowerCase().contains(query.toLowerCase()) || 
+                    qr.getCategory().toLowerCase().contains(query.toLowerCase())) {
+                    filteredList.add(qr);
+                }
+            }
+            adapter.setQrCodes(filteredList);
+        });
     }
 
     private void setupBottomNav() {
