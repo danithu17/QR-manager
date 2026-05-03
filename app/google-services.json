@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "660153273288",
+    "project_id": "qr-manager-a3ae9",
+    "storage_bucket": "qr-manager-a3ae9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:660153273288:android:523effaa3ec06dea228efd",
+        "android_client_info": {
+          "package_name": "com.example.qrmanager"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFRoqmV_wD0v3W3udx90Bep0tYmd_aNLs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

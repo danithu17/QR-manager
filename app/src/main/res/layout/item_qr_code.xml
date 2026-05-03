@@ -91,6 +91,17 @@
                 android:src="@android:drawable/stat_notify_chat"
                 android:contentDescription="Message on WhatsApp"
                 app:tint="@color/status_available" />
+
+            <ImageButton
+                android:id="@+id/btnExportPdf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="4dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_menu_save"
+                android:contentDescription="Export as PDF"
+                app:tint="@color/primary" />
         </LinearLayout>
 
     </LinearLayout>

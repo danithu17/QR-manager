@@ -27,6 +27,7 @@ public class QRCodeAdapter extends RecyclerView.Adapter<QRCodeAdapter.QRViewHold
         void onSell(QRCode qrCode);
         void onReserve(QRCode qrCode);
         void onWhatsApp(QRCode qrCode);
+        void onExportPdf(QRCode qrCode);
     }
 
     public void setOnItemActionListener(OnItemActionListener listener) {
@@ -78,6 +79,10 @@ public class QRCodeAdapter extends RecyclerView.Adapter<QRCodeAdapter.QRViewHold
             if (listener != null) listener.onWhatsApp(qrCode);
         });
 
+        holder.btnExportPdf.setOnClickListener(v -> {
+            if (listener != null) listener.onExportPdf(qrCode);
+        });
+
         // Simple Fade-in animation
         setFadeAnimation(holder.itemView);
     }
@@ -97,7 +102,7 @@ public class QRCodeAdapter extends RecyclerView.Adapter<QRCodeAdapter.QRViewHold
         ImageView ivQR;
         TextView tvName, tvCategory, tvStatus;
         Button btnAction, btnReserve;
-        View btnWhatsApp;
+        View btnWhatsApp, btnExportPdf;
 
         public QRViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -108,6 +113,7 @@ public class QRCodeAdapter extends RecyclerView.Adapter<QRCodeAdapter.QRViewHold
             btnAction = itemView.findViewById(R.id.btnAction);
             btnReserve = itemView.findViewById(R.id.btnReserve);
             btnWhatsApp = itemView.findViewById(R.id.btnWhatsApp);
+            btnExportPdf = itemView.findViewById(R.id.btnExportPdf);
         }
     }
 }
